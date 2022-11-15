@@ -1,1 +1,1 @@
-web: gunicorn nail-salon-booking.wsgi
+web: gunicorn nailsalon2022.wsgi
