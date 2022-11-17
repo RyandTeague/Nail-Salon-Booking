@@ -34,7 +34,16 @@ class TreatmentType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     type = models.CharField(max_length=30, unique=True)
     price = models.CharField(max_length=10)
+    duration = models.DurationField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return f’Room {self.type} price: {self.price}’
+        return f’Treatment: {self.type} price: {self.price} Duration: {self.duration}’
+
+class TreatmentStatus(models.Model):
+id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+status = models.CharField(max_length=20, unique=True)
+created_at = models.DateTimeField(auto_now_add=True, null=True)
+updated_at = models.DateTimeField(auto_now=True, null=True)
+def __str__(self):
+return f’Room {self.status}’
