@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
+import uuid
 
 # Create your models here.
 class User(models.Model):
@@ -26,4 +28,13 @@ class Technician(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return f’Technician {self.first_name} {self.last_name}’
+        return f"Technician {self.first_name} {self.last_name}"
+
+class TreatmentType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    type = models.CharField(max_length=30, unique=True)
+    price = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return f’Room {self.type} price: {self.price}’
