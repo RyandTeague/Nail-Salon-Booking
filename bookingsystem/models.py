@@ -41,9 +41,20 @@ class TreatmentType(models.Model):
         return f’Treatment: {self.type} price: {self.price} Duration: {self.duration}’
 
 class TreatmentStatus(models.Model):
-id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-status = models.CharField(max_length=20, unique=True)
-created_at = models.DateTimeField(auto_now_add=True, null=True)
-updated_at = models.DateTimeField(auto_now=True, null=True)
-def __str__(self):
-return f’Room {self.status}’
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    status = models.CharField(max_length=20, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return f’Treatment {self.status}’
+
+class Room(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    treatment_type_id = models.ForeignKey(TreatmentType, on_delete=models.CASCADE)
+    treatment_status_id = models.ForeignKey(TreatmentStatus, on_delete=models.CASCADE)
+    treatment_name = models.CharField(max_length=5, unique=True)
+    price = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return f’Treatment {self.treatment_name} price:{self.price} is currently {self.treatment_status_id}’
