@@ -6,7 +6,7 @@ from salon.forms import UserRegisterForm, TechnicianRegisterForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django import forms
-from .models import User, Technician,Treatment,TreatmentStatus, TreatmentType
+from .models import User, Technician, Treatment, TreatmentStatus, TreatmentType
 
 
 # Create your views here.

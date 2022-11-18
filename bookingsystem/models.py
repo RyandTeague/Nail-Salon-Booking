@@ -58,3 +58,13 @@ class Treatment(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
         return f"Treatment {self.treatment_name} price:{self.price} is currently {self.treatment_status_id}"
+
+class Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    treatment_id = models.ForeignKey(Treatment, on_delete=models.CASCADE)
+    customer_id = models.ForeignKey(User, on_delete=CASCADE)
+    staff_id = models.ForeignKey(Technician, on_delete=CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    def __str__(self):
+        return f'Booking by customer {self.customer_id} paid {self.payment_id} for room {self.treatment_id}'
