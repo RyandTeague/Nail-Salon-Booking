@@ -48,7 +48,7 @@ class TreatmentStatus(models.Model):
     def __str__(self):
         return f’Treatment {self.status}’
 
-class Room(models.Model):
+class Treatment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     treatment_type_id = models.ForeignKey(TreatmentType, on_delete=models.CASCADE)
     treatment_status_id = models.ForeignKey(TreatmentStatus, on_delete=models.CASCADE)
