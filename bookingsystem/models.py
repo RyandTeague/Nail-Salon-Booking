@@ -38,7 +38,7 @@ class TreatmentType(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return f’Treatment: {self.type} price: {self.price} Duration: {self.duration}’
+        return f"Treatment: {self.type} price: {self.price} Duration: {self.duration}"
 
 class TreatmentStatus(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -46,7 +46,7 @@ class TreatmentStatus(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return f’Treatment {self.status}’
+        return f"Treatment {self.status}"
 
 class Treatment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
