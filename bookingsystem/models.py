@@ -57,4 +57,4 @@ class Treatment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     def __str__(self):
-        return f’Treatment {self.treatment_name} price:{self.price} is currently {self.treatment_status_id}’
+        return f"Treatment {self.treatment_name} price:{self.price} is currently {self.treatment_status_id}"
