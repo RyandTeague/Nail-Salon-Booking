@@ -1,46 +1,28 @@
 from django.db import models
-from django.db import models
-from authentication.models import Customer, Technician
-from datetime import date
-
-# Create your models here.
+from PIL import Image
 
 
-class Contact(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    message = models.TextField(max_length=2000)
-
-    def __str__(self):
-        return self.name
-
-
-class Rooms(models.Model):
-    manager = models.ForeignKey(RoomManager, on_delete=models.CASCADE)
-    room_no = models.CharField(max_length=5, )
-    room_type = models.CharField(max_length=50)
-    is_available = models.BooleanField(default=True)
-    price = models.FloatField(default=1000.00)
-    no_of_days_advance = models.IntegerField()
-    start_date = models.DateField(auto_now=False, auto_now_add=False)
-    room_image = models.ImageField(upload_to="media", 
-        height_field=None, width_field=None, 
-        max_length=None, default='0.jpeg')
-    def __str__(self):
-        return "Room No: "+str(self.id)
-
-
-class Booking(models.Model):
-    room_no = models.ForeignKey(Rooms, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    start_day = models.DateField(auto_now=False, auto_now_add=False)
-    end_day = models.DateField(auto_now=False, auto_now_add=False)
-    amount = models.FloatField()
-    booked_on = models.DateTimeField(auto_now=True, auto_now_add=False)
+class Customer(models.Model):
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    email = models.CharField(max_length=50)
+    profile_pic = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None,blank=True)
+    phone_no = models.CharField(max_length=50)
+    address = models.TextField()
+    state = models.CharField(max_length=30,blank=True)
+    pin_code = models.IntegerField(blank=True)
     
     def __str__(self):
-        return "Booking ID: " + str(self.id)
+        return "Customer: "+self.username
 
-    @property
-    def is_past_due(self):
-        return date.today()>self.end_day 
+
+class RoomManager(models.Model):
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    email = models.CharField(max_length=50)
+    profile_pic = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None,blank=True)
+    phone_no = models.CharField(max_length=50)
+    gender = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return "Room Manager: "+self.username
