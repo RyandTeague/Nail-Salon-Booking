@@ -47,8 +47,12 @@ INSTALLED_APPS = [
     'booking',
     'customer',
     'technician',
+    'django_summernote',
+    'crispy_forms',
 #    'payment',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
