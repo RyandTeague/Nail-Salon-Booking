@@ -1,6 +1,6 @@
 from django.db import models
 from django.db import models
-from authentication.models import Customer, Technician
+from authentication.models import Customer, RoomManager
 from datetime import date
 
 # Create your models here.
