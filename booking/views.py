@@ -89,6 +89,14 @@ def contact(request):
         data.save()
         return render(request,"contact/contact.html",{'message':'Thank you for contacting us.'})
 
+def userPanel(request):
+    user = request.user
+    appointments = Appointment.objects.filter(user=user).order_by('day', 'time')
+    return render(request, 'userPanel.html', {
+        'user':user,
+        'appointments':appointments,
+    })
+    
 #def book(request):
 #    if request.method=="POST":
 #        start_date=request.POST['start_date']
