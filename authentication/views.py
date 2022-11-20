@@ -61,7 +61,7 @@ def manager_login(request):
             res=check_password(password, password_hash)
             if res==1:
                 # Adds necessary approval to be able to log into a staff account
-                if user.approved = True:
+                if user.approved:
                     request.session['username'] = username
                     request.session['type'] = 'manager'
                     return render(request, 'booking/index.html', {})

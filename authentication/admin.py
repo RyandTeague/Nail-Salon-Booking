@@ -6,13 +6,15 @@ from django_summernote.admin import SummernoteModelAdmin
 admin.site.register(Customer)
 admin.site.register(Technician)
 
+
 @admin.register(Contact)
 class ContactAdmin(SummernoteModelAdmin):
 
-    list_display = ('name', 'email', '', 'message')
+    list_display = ('name', 'email', 'created_on', 'message')
     search_fields = ['name', 'message']
-    list_filter = ('created_on')
+    filter = ('created_on')
     summernote_fields = ('message',)
+
 
 admin.site.register(Treatments)
 admin.site.register(Booking)

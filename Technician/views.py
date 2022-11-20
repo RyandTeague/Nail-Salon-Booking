@@ -30,37 +30,37 @@ def add_technician(request):
     if request.method == "GET":
         return render(request,"manager_dash/add-technician.html",{})
     else:
-            technician_no = request.POST['technician_no']
-            technician_type = request.POST['technician_type']
-            price = request.POST['price']
-            technician_image = request.FILES.get('technician_image',None)
-            no_of_days_advance = request.POST['no_of_days_advance']
-            start_day = request.POST['start_day']
-            error = []
-            if(len(technician_no)<1):
-                error.append(1)
-                messages.warning(request,"technician No Field must be atleast 3 digit like 100.")
-            if(len(technician_type)<5):
-                error.append(1)
-                messages.warning(request,"Select a valid technician Type.")
-            if(len(price)<=2):
-                error.append(1)
-                messages.warning(request,"Please enter price")
-            if(len(no_of_days_advance)<1):
-                error.append(1)
-                messages.warning(request,"Please add valid no of days a user can book technician in advance.")
-            if(len(start_day)<3):
-                error.append(1)
-                messages.warning(request,"Please add the starting day")
-            if(not len(error)):
-                manager = request.session['username']
-                manager = Technician.objects.get(username=manager)
-                technician = Treatments(technician_no=technician_no,technician_type=technician_type,price=price,no_of_days_advance=no_of_days_advance,start_date=datetime.datetime.strptime(start_day, "%d %B, %Y").date(),technician_image=technician_image,manager=manager)
-                technician.save()
-                messages.info(request,"Treatment Added Successfully")
-                return redirect('/manager/dashboard1/')
-            else:
-                return redirect('/user/add-technician/new/')
+        technician_no = request.POST['technician_no']
+        technician_type = request.POST['technician_type']
+        price = request.POST['price']
+        technician_image = request.FILES.get('technician_image',None)
+        no_of_days_advance = request.POST['no_of_days_advance']
+        start_day = request.POST['start_day']
+        error = []
+        if(len(technician_no)<1):
+            error.append(1)
+            messages.warning(request,"technician No Field must be atleast 3 digit like 100.")
+        if(len(technician_type)<5):
+            error.append(1)
+            messages.warning(request,"Select a valid technician Type.")
+        if(len(price)<=2):
+            error.append(1)
+            messages.warning(request,"Please enter price")
+        if(len(no_of_days_advance)<1):
+            error.append(1)
+            messages.warning(request,"Please add valid no of days a user can book technician in advance.")
+        if(len(start_day)<3):
+            error.append(1)
+            messages.warning(request,"Please add the starting day")
+        if(not len(error)):
+            manager = request.session['username']
+            manager = Technician.objects.get(username=manager)
+            technician = Treatments(technician_no=technician_no,technician_type=technician_type,price=price,no_of_days_advance=no_of_days_advance,start_date=datetime.datetime.strptime(start_day, "%d %B, %Y").date(),technician_image=technician_image,manager=manager)
+            technician.save()
+            messages.info(request,"Treatment Added Successfully")
+            return redirect('/manager/dashboard1/')
+        else:
+            return redirect('/user/add-technician/new/')
 
 
 def update_technician(request,technician_no):

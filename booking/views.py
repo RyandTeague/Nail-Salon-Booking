@@ -42,7 +42,7 @@ def book_now(request,id):
             start_date=request.session['start_date']
             end_date=request.session['end_date']
             request.session['technician_no']=id
-            data=Treatments.objects.get(technician_no=id)
+            data=Treatments.objects.get(treatment_no=id)
             bill=data.price*int(no_of_days)
             request.session['bill']=bill
             technician=data.manager.username
@@ -54,39 +54,39 @@ def book_now(request,id):
         return redirect('user_login')
         
 def book_confirm(request):
-    technician_no=request.session['technician_no']
+    treatment_no=request.session['technician_no']
     start_date=request.session['start_date']
     end_date=request.session['end_date']
     username=request.session['username']
     user_id=Customer.objects.get(username=username)
-    technician=Treatments.objects.get(technician_no=technician_no)
+    treatment=Treatments.objects.get(treatment_no=treatment_no)
     amount=request.session['bill']
     start_date=datetime.datetime.strptime(start_date, "%d/%b/%Y").date()
     end_date=datetime.datetime.strptime(end_date, "%d/%b/%Y").date()
     data=Booking(technician_no=technician,start_day=start_date,end_day=end_date,amount=amount,user_id=user_id)
     data.save()
-    technician.is_available=False
-    technician.save()
+    treatment.is_available=False
+    treatment.save()
     del request.session['start_date']
     del request.session['end_date']
     del request.session['bill']
-    del request.session['technician_no']
-    messages.info(request,"technician has been successfully booked")
+    del request.session['treatment_no']
+    messages.info(request,"treatment has been successfully booked")
     return redirect('user_dashboard')
 
-def cancel_technician(request,id):
+def cancel_treatment(request,id):
     data=Booking.objects.get(id=id)
-    technician=data.technician_no
-    technician.is_available=True
-    technician.save()
+    treatment=data.treatment_no
+    treatment.is_available=True
+    treatment.save()
     data.delete()
     return HttpResponse("Booking Cancelled Successfully")
 
-def delete_technician(request,id):
+def delete_treatment(request,id):
     data=Treatments.objects.get(id=id)
     manager=data.manager.username
     if manager==request.session['username']:
         data.delete()
-        return HttpResponse("You have deleted the technician successfully")
+        return HttpResponse("You have deleted the treatment successfully")
     else:
         return HttpResponse("Invalid Request")

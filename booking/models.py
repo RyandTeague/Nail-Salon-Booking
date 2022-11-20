@@ -1,10 +1,15 @@
 from django.db import models
-from django.db import models
 from authentication.models import Customer, Technician
 from datetime import date
 
 # Create your models here.
-
+SERVICE_CHOICES = (
+    ("Gel Polish", "Gel Polish"),
+    ("Biab First Application", "Biab First Application")
+    ("Biab Infill", "Biab Infill")
+    ("Apres Gel Extension", "Apres Gel Extension")
+    ("Removal & Mani", "Removal & Mani")
+)
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -12,7 +17,7 @@ class Contact(models.Model):
     message = models.TextField(max_length=2000)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self):     
         return self.name
 
 
