@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from authentication.models import RoomManager
+from authentication.models import Technician
 from booking.models import Booking,Rooms
 from datetime import date
 from django.contrib import messages
@@ -13,7 +13,7 @@ def dashboard(request):
         return redirect('user_dashboard')
   if request.session.get('username',None) and request.session.get('type',None)=='manager':
       username=request.session['username']
-      data=RoomManager.objects.get(username=username)
+      data=Technician.objects.get(username=username)
       room_data=data.rooms_set.all()
       booked=room_data.filter(is_available=False).count()
       print(booked)
@@ -54,7 +54,7 @@ def add_room(request):
                 messages.warning(request,"Please add the starting day")
             if(not len(error)):
                 manager = request.session['username']
-                manager = RoomManager.objects.get(username=manager)
+                manager = Technician.objects.get(username=manager)
                 room = Rooms(room_no=room_no,room_type=room_type,price=price,no_of_days_advance=no_of_days_advance,start_date=datetime.datetime.strptime(start_day, "%d %B, %Y").date(),room_image=room_image,manager=manager)
                 room.save()
                 messages.info(request,"Room Added Successfully")
@@ -83,7 +83,7 @@ def update_room(request,room_no):
             messages.warning(request,"Please add valid no of days a user can book room in advance.")
         if(not len(error)):
             manager = request.session['username']
-            manager = RoomManager.objects.get(username=manager)
+            manager = Technician.objects.get(username=manager)
             room.price = price
             room.no_of_days_advance = no_of_days_advance
             room.save()

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'booking',
     'customer',
-    'Receptionist',
+    'Technician',
     'django_summernote',
     'crispy_forms',
 #    'payment',

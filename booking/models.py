@@ -1,6 +1,6 @@
 from django.db import models
 from django.db import models
-from authentication.models import Customer, RoomManager
+from authentication.models import Customer, Technician
 from datetime import date
 
 # Create your models here.
@@ -10,13 +10,14 @@ class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     message = models.TextField(max_length=2000)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
 
 
 class Rooms(models.Model):
-    manager = models.ForeignKey(RoomManager, on_delete=models.CASCADE)
+    manager = models.ForeignKey(Technician, on_delete=models.CASCADE)
     room_type = models.CharField(max_length=50)
     is_available = models.BooleanField(default=True)
     price = models.FloatField(default=1000.00)
@@ -39,7 +40,3 @@ class Booking(models.Model):
     
     def __str__(self):
         return "Booking ID: " + str(self.id)
-
-    @property
-    def is_past_due(self):
-        return date.today()>self.end_day 

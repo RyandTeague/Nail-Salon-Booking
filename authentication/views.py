@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Customer, RoomManager
+from .models import Customer, Technician
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
@@ -55,14 +55,19 @@ def manager_login(request):
             redirect('manager_login')
         else:
             pass
-        if RoomManager.objects.filter(username=username):
-            user=RoomManager.objects.filter(username=username)[0]
+        if Technician.objects.filter(username=username):
+            user=Technician.objects.filter(username=username)[0]
             password_hash=user.password
             res=check_password(password, password_hash)
             if res==1:
-                request.session['username'] = username
-                request.session['type'] = 'manager'
-                return render(request, 'booking/index.html', {})
+                # Adds necessary approval to be able to log into a staff account
+                if user.approved = True:
+                    request.session['username'] = username
+                    request.session['type'] = 'manager'
+                    return render(request, 'booking/index.html', {})
+                else:
+                    messages.warning(request, "Your account is awaiting approval")
+                    redirect('manager_login')
             else:
                 messages.warning(request, "Username or password is incorrect")
                 redirect('manager_login')
@@ -126,7 +131,7 @@ def manager_signup(request):
     if request.method=="POST":
         username=request.POST['username']
         email=request.POST['email']
-        if RoomManager.objects.filter(username=username) or RoomManager.objects.filter(email=email):
+        if Technician().objects.filter(username=username) or Technician.objects.filter(email=email):
            messages.warning(request, "Account already exist,  please Login to continue")
         else:
             password=request.POST['password']
@@ -147,7 +152,7 @@ def manager_signup(request):
                 messages.warning(request, "Valid Phone number is a 10 digit-integer.")
             if(len(error)==0):
                 password_hash = make_password(password)
-                r_manager=RoomManager(username=username, password=password_hash, email=email, phone_no=phone_no, profile_pic=profile_pic)
+                r_manager=Technician(username=username, password=password_hash, email=email, phone_no=phone_no, profile_pic=profile_pic)
                 r_manager.save()
                 messages.info(request, "Account Created Successfully,  Please login to continue")
                 redirect('manager_signup')

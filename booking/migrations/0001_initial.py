@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('no_of_days_advance', models.IntegerField()),
                 ('start_date', models.DateField()),
                 ('room_image', models.ImageField(default='0.jpeg', upload_to='media')),
-                ('manager', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.roommanager')),
+                ('manager', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='authentication.technician')),
             ],
         ),
         migrations.CreateModel(

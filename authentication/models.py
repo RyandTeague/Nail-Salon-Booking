@@ -21,6 +21,8 @@ class Technician(models.Model):
     #Customers can opt ot of having a profile picture but staff members cannot
     profile_pic = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None,blank=False)
     phone_no = models.CharField(max_length=50)
+    # Allows approval of staff accounts not everyone can create a technician account
+    approved = models.BooleanField(default=False)
     
     def __str__(self):
-        return "Room Manager: "+self.username
+        return "Technician: "+self.username

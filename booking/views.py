@@ -45,8 +45,8 @@ def book_now(request,id):
             data=Rooms.objects.get(room_no=id)
             bill=data.price*int(no_of_days)
             request.session['bill']=bill
-            roomManager=data.manager.username
-            return render(request,"booking/book-now.html",{"no_of_days":no_of_days,"room_no":id,"data":data,"bill":bill,"roomManager":roomManager,"start":start_date,"end":end_date})
+            technician=data.manager.username
+            return render(request,"booking/book-now.html",{"no_of_days":no_of_days,"data":data,"bill":bill,"technician":technician,"start":start_date,"end":end_date})
         else:
             return redirect("index")
     else:
