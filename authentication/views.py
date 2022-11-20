@@ -32,12 +32,13 @@ def user_login(request):
                 messages.warning(request, "Username or password is incorrect")
                 redirect('user_login')
         else:
-            messages.warning(request, "No,  Account exist for the given Username")
+            messages.warning(request, "No Account exists for the given Username")
             redirect('user_login')
     else:
         redirect('user_login')
     return render(request, 'login/user_login.html', {})
     
+
 def manager_login(request):
     if request.session.get('username', None) and request.session.get('type', None)=='customer':
         return redirect('user_dashboard')
@@ -66,11 +67,13 @@ def manager_login(request):
                 messages.warning(request, "Username or password is incorrect")
                 redirect('manager_login')
         else:
-            messages.warning(request, "No,  Account exist for the given Username")
+            messages.warning(request, "No account exists for the given Username")
             redirect('manager_login')
     else:
         redirect('manager_login')
     return render(request, 'login/manager_login.html', {})
+
+
 def user_signup(request):
     if request.session.get('username', None) and request.session.get('type', None)=='customer':
         return redirect('user_dashboard')
@@ -80,7 +83,7 @@ def user_signup(request):
         username=request.POST['username']
         email=request.POST['email']
         if Customer.objects.filter(username=username) or Customer.objects.filter(email=email):
-            messages.warning(request, "Account already exist,  please Login to continue")
+            messages.warning(request, "Account already exists,  please Login to continue")
         else:
             password=request.POST['password']
             address=request.POST['address']

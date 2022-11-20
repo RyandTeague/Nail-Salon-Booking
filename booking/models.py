@@ -17,7 +17,6 @@ class Contact(models.Model):
 
 class Rooms(models.Model):
     manager = models.ForeignKey(RoomManager, on_delete=models.CASCADE)
-    room_no = models.CharField(max_length=5, )
     room_type = models.CharField(max_length=50)
     is_available = models.BooleanField(default=True)
     price = models.FloatField(default=1000.00)
@@ -31,7 +30,7 @@ class Rooms(models.Model):
 
 
 class Booking(models.Model):
-    room_no = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    manager = models.ForeignKey(Rooms, on_delete=models.CASCADE)
     user_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     start_day = models.DateField(auto_now=False, auto_now_add=False)
     end_day = models.DateField(auto_now=False, auto_now_add=False)

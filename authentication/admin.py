@@ -4,3 +4,6 @@ from booking.models import Contact, Rooms, Booking
 
 admin.site.register(Customer)
 admin.site.register(RoomManager)
+admin.site.register(Contact)
+admin.site.register(Rooms)
+admin.site.register(Booking)
