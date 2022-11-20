@@ -7,5 +7,5 @@ urlpatterns=[
     path('signup1',views.manager_signup,name='manager_signup'),
     path('dashboard/',include('customer.urls')),
     path('dashboard1/',include('Technician.urls')),
-    path('add-room/',include('Technician.urls'))
+    path('add-treatment/',include('Technician.urls'))
 ]

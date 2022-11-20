@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import Contact
-from .models import Rooms,Booking
+from .models import Treatments,Booking
 from authentication.models import Customer
 from django.contrib import messages
 from django.http import HttpResponse
@@ -29,7 +29,7 @@ def book(request):
         start_date=datetime.datetime.strptime(start_date, "%d/%b/%Y").date()
         end_date=datetime.datetime.strptime(end_date, "%d/%b/%Y").date()
         no_of_days=(end_date-start_date).days
-        data=Rooms.objects.filter(is_available=True,no_of_days_advance__gte=no_of_days,start_date__lte=start_date)
+        data=Treatments.objects.filter(is_available=True,no_of_days_advance__gte=no_of_days,start_date__lte=start_date)
         request.session['no_of_days']=no_of_days
         return render(request,'booking/book.html',{'data':data})
     else:
@@ -41,8 +41,8 @@ def book_now(request,id):
             no_of_days=request.session['no_of_days']
             start_date=request.session['start_date']
             end_date=request.session['end_date']
-            request.session['room_no']=id
-            data=Rooms.objects.get(room_no=id)
+            request.session['technician_no']=id
+            data=Treatments.objects.get(technician_no=id)
             bill=data.price*int(no_of_days)
             request.session['bill']=bill
             technician=data.manager.username
@@ -54,39 +54,39 @@ def book_now(request,id):
         return redirect('user_login')
         
 def book_confirm(request):
-    room_no=request.session['room_no']
+    technician_no=request.session['technician_no']
     start_date=request.session['start_date']
     end_date=request.session['end_date']
     username=request.session['username']
     user_id=Customer.objects.get(username=username)
-    room=Rooms.objects.get(room_no=room_no)
+    technician=Treatments.objects.get(technician_no=technician_no)
     amount=request.session['bill']
     start_date=datetime.datetime.strptime(start_date, "%d/%b/%Y").date()
     end_date=datetime.datetime.strptime(end_date, "%d/%b/%Y").date()
-    data=Booking(room_no=room,start_day=start_date,end_day=end_date,amount=amount,user_id=user_id)
+    data=Booking(technician_no=technician,start_day=start_date,end_day=end_date,amount=amount,user_id=user_id)
     data.save()
-    room.is_available=False
-    room.save()
+    technician.is_available=False
+    technician.save()
     del request.session['start_date']
     del request.session['end_date']
     del request.session['bill']
-    del request.session['room_no']
-    messages.info(request,"Room has been successfully booked")
+    del request.session['technician_no']
+    messages.info(request,"technician has been successfully booked")
     return redirect('user_dashboard')
 
-def cancel_room(request,id):
+def cancel_technician(request,id):
     data=Booking.objects.get(id=id)
-    room=data.room_no
-    room.is_available=True
-    room.save()
+    technician=data.technician_no
+    technician.is_available=True
+    technician.save()
     data.delete()
     return HttpResponse("Booking Cancelled Successfully")
 
-def delete_room(request,id):
-    data=Rooms.objects.get(id=id)
+def delete_technician(request,id):
+    data=Treatments.objects.get(id=id)
     manager=data.manager.username
     if manager==request.session['username']:
         data.delete()
-        return HttpResponse("You have deleted the room successfully")
+        return HttpResponse("You have deleted the technician successfully")
     else:
         return HttpResponse("Invalid Request")

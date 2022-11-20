@@ -16,22 +16,22 @@ class Contact(models.Model):
         return self.name
 
 
-class Rooms(models.Model):
+class Treatments(models.Model):
     manager = models.ForeignKey(Technician, on_delete=models.CASCADE)
-    room_type = models.CharField(max_length=50)
+    treatment_type = models.CharField(max_length=50)
     is_available = models.BooleanField(default=True)
     price = models.FloatField(default=1000.00)
     no_of_days_advance = models.IntegerField()
     start_date = models.DateField(auto_now=False, auto_now_add=False)
-    room_image = models.ImageField(upload_to="media", 
+    treatment_image = models.ImageField(upload_to="media", 
         height_field=None, width_field=None, 
         max_length=None, default='0.jpeg')
     def __str__(self):
-        return "Room No: "+str(self.id)
+        return "Treatment No: "+str(self.id)
 
 
 class Booking(models.Model):
-    manager = models.ForeignKey(Rooms, on_delete=models.CASCADE)
+    manager = models.ForeignKey(Treatments, on_delete=models.CASCADE)
     user_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     start_day = models.DateField(auto_now=False, auto_now_add=False)
     end_day = models.DateField(auto_now=False, auto_now_add=False)

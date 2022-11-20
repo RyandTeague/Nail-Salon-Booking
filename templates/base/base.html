@@ -21,7 +21,7 @@ width:190px !important;
    <body>
 <nav style="background-color: dodgerblue">
    <div class="nav-wrapper container">
-     <a href="/" class="brand-logo center" style="font-family: 'arial';font-size:2rem"><i class="material-icons" style="font-size:2rem">hotel</i>Room Slotter </a>
+     <a href="/" class="brand-logo center" style="font-family: 'arial';font-size:2rem"><i class="material-icons" style="font-size:2rem">hotel</i>Treatment Slotter </a>
      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
     
      <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -48,7 +48,7 @@ width:190px !important;
               {% if not request.session.username %}
      <li><a href="/user/login" class="blue-text"><i class="material-icons left red-text text-lighten-2">person</i> Customer</a></li>
    <li class="divider" tabindex="-1"></li>
-   <li><a href="/manager/login1" class="blue-text"><i class="material-icons left red-text text-lighten-2">room_service</i> Room Manager</a></li>
+   <li><a href="/manager/login1" class="blue-text"><i class="material-icons left red-text text-lighten-2">Treatment_service</i> Technician</a></li>
  {% else %}
   {% if request.session.type == 'customer' %}
        <li><a href="/user/dashboard"><i class="material-icons left red-text text-lighten-2">dashboard</i> Dashboard</a></li>
@@ -66,7 +66,7 @@ width:190px !important;
  <ul id='dropdown1' class='dropdown-content'>
    <li><a href="/user/login" class="blue-text"><i class="material-icons left red-text text-lighten-2">person</i> Customer</a></li>
    <li class="divider" tabindex="-1"></li>
-   <li><a href="/manager/login1" class="blue-text"><i class="material-icons left red-text text-lighten-2">room_service</i> Room Manager</a></li>
+   <li><a href="/manager/login1" class="blue-text"><i class="material-icons left red-text text-lighten-2">room_service</i> Technician</a></li>
  </ul>
    <ul id='dropdown2' class='dropdown-content'>
     {% if request.session.type == 'customer' %}
@@ -83,7 +83,7 @@ width:190px !important;
          <div class="container">
            <div class="row">
              <div class="col l6 s12">
-               <h5 class="white-text" style="font-family: 'Cookie';">Room Slots</h5>
+               <h5 class="white-text" style="font-family: 'Cookie';">Treatment Slots</h5>
                <p class="grey-text text-lighten-4">Get your room booked in seconds with amazing offers.</p>
              </div>
              <div class="col l4 offset-l2 s12">
@@ -95,7 +95,7 @@ width:190px !important;
                  {% if request.session.type == 'customer' %}
                  <li><a class="grey-text text-lighten-3" href="/user/login">Customer</a></li>
                  {% else %}
-                 <li><a class="grey-text text-lighten-3" href="/manager/login1">Room Manager</a></li>
+                 <li><a class="grey-text text-lighten-3" href="/manager/login1">Technician</a></li>
                  {% endif %}
                  {% else %}
                  <li><a class="grey-text text-lighten-3" href="/logout">Logout</a></li>
