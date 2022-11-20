@@ -30,6 +30,54 @@ def booking(request):
         'validateWeekdays':validateWeekdays,
     })
 
+def bookingSubmit(request):
+    user = request.user
+    times = [
+        "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
+    ]
+    today = datetime.now()
+    minDate = today.strftime('%Y-%m-%d')
+    deltatime = today + timedelta(days=21)
+    strdeltatime = deltatime.strftime('%Y-%m-%d')
+    maxDate = strdeltatime
+
+    day = request.session.get('day')
+    service = request.session.get('service')
+
+    # Only show available timeslots
+    hour = checkTime(times, day)
+    if request.method == 'POST':
+        time = request.POST.get("time")
+        day = dayToWeekday(day)
+
+        if service != None:
+            if day <= maxDate and day >= minDate:
+                if date == 'Monday' or date == 'Saturday' or date == 'Wednesday':
+                    if Appointment.objects.filter(day=day).count() < 11:
+                        if Appointment.objects.filter(day=day, time=time).count() < 1:
+                            AppointmentForm = Appointment.objects.get_or_create(
+                                user = user,
+                                service = service,
+                                day = day,
+                                time = time,
+                            )
+                            messages.success(request, "Appointment Saved!")
+                            return redirect('index')
+                        else:
+                            messages.success(request, "The Selected Time Has Been Reserved Before!")
+                    else:
+                        messages.success(request, "The Selected Day Is Full!")
+                else:
+                    messages.success(request, "The Selected Date Is Incorrect")
+            else:
+                    messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+        else:
+            messages.success(request, "Please Select A Service!")
+
+    return render(request, 'bookingSubmit.html', {
+        'times':hour,
+    })
+
 def contact(request):
     if request.method=="GET":
         return render(request,"contact/contact.html",{})
