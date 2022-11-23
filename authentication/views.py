@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Customer, Technician
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterUserForm
+from django.core.mail import send_mail
 
 
 
