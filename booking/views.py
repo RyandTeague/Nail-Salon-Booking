@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from datetime import datetime, timedelta
 
 def index(request):
-    return render(request,'booking/index.html',{})
+    return render(request,'index.html',{})
 
 def booking(request):
     weekdays = validWeekday(22)
