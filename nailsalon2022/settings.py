@@ -43,13 +43,10 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
-    'authentication',
-    'booking',
-#    'customer',
-#    'Technician',
     'django_summernote',
     'crispy_forms',
-#    'payment',
+    'authentication',
+    'booking',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
