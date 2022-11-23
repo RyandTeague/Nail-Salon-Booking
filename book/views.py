@@ -24,7 +24,7 @@ def booking(request):
 
         return redirect('bookingSubmit')
 
-    return render(request, '.templates/booking.html', {
+    return render(request, 'booking.html', {
         'weekdays':weekdays,
         'validateWeekdays':validateWeekdays,
     })
@@ -34,9 +34,9 @@ def bookingSubmit(request):
     times = [
         "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
     ]
-    today = datetime.now()
-    minDate = today.strftime('%Y-%m-%d')
-    deltatime = today + timedelta(days=21)
+    yesterday = datetime.now() - timedelta(days=1)
+    minDate = yesterday.strftime('%Y-%m-%d')
+    deltatime = yesterday + timedelta(days=22)
     strdeltatime = deltatime.strftime('%Y-%m-%d')
     maxDate = strdeltatime
 
@@ -47,7 +47,7 @@ def bookingSubmit(request):
     hour = checkTime(times, day)
     if request.method == 'POST':
         time = request.POST.get("time")
-        day = dayToWeekday(day)
+        date = dayToWeekday(day)
 
         if service != None:
             if day <= maxDate and day >= minDate:

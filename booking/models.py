@@ -34,7 +34,7 @@ class Appointment(models.Model):
     service = models.CharField(max_length=50, choices=SERVICE_CHOICES, default="Gel Polish")
     day = models.DateField(default=datetime.now)
     time = models.CharField(max_length=10, choices=TIME_CHOICES, default="9:00")
-#    time_ordered = models.DateTimeField(default=datetime.now, blank=True)
+    time_ordered = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return f"{self.user.username} | day: {self.day} | time: {self.time}"
