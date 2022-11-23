@@ -22,8 +22,8 @@ from authentication import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('booking.urls')),
-    path('user/',include('authentication.urls')),
-    path('user/',include('django.contrib.auth.urls')),
+    path('',include('authentication.urls')),
+    path('',include('django.contrib.auth.urls')),
 #    path('manager/',include('authentication.urls')),
 #    path('logout',views.logout,name='logout'),
 #    path('api/',include('api.urls')),

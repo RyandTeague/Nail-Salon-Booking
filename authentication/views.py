@@ -22,7 +22,7 @@ def login_user(request):
             messages.success(request, "There Was An Error!")
             return redirect('login')
     else:
-        return render(request, 'authenticate/login.html', {})
+        return render(request, '.templates/login.html', {})
 
 def logout_user(request):
     logout(request)
@@ -42,7 +42,7 @@ def register_user(request):
             return redirect('index')
     else:
         form = RegisterUserForm()
-    return render(request, 'authenticate/register_user.html', {
+    return render(request, 'register_user.html', {
         'form':form,
     })
     
