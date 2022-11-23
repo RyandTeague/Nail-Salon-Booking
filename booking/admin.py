@@ -1,14 +1,20 @@
 from django.contrib import admin
-from .models import *
+from .models import Appointment, Contact
 from django_summernote.admin import SummernoteModelAdmin
 
 # Register your models here.
 
-admin.site.register(Appointment)
+@admin.register(Appointment)
+class AppointmentAdmin(SummernoteModelAdmin):
+
+    list_display = ('user', 'service', 'day', 'time')
+    search_fields = ['user', 'service', 'day']
+    list_filter = ('day', 'service', 'time')
+    actions = ['approve_appointment']
+
 @admin.register(Contact)
 class ContactAdmin(SummernoteModelAdmin):
 
-    list_display = ('name', 'email', 'created_on', 'message')
+    list_display = ('name', 'email', 'message')
     search_fields = ['name', 'message']
-    filter = ('created_on')
     summernote_fields = ('message',)

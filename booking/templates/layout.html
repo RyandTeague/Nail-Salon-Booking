@@ -19,7 +19,7 @@
         <nav class="navbar bg-white navbar-white navbar-expand-lg shadow-sm">
             <div class="container-fluid">
                 <a class="navbar-brand  cHover cGreen fs-2" href="{% url 'index' %}">
-                    Dr.John Smith
+                    Nailed It Salon
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,7 +30,7 @@
                             <a class="nav-link active cHover" aria-current="page" href="{% url 'index' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active cHover" href="#contact">Contact Us</a>
+                            <a class="nav-link active cHover" href="/contact-us">Contact Us</a>
                         </li>     
                         <li class="nav-item">
                             <a class="nav-link active cHover" href="{% url 'booking' %}">Online Booking</a>
@@ -91,7 +91,7 @@
                             Contact Us
                         </h5>
                         <p>
-                            <a href="tel: 12345678" class=""><span class="cBlue">Tel: 12345678</span></a>
+                            <a class="uLine cHover" href="/contact-us">Ask us a question!</a>
                         </p>
                         <p>
                             <a class="uLine cHover" href="{% url 'booking' %}" >Online Booking</a>

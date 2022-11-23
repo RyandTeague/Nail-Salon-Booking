@@ -80,14 +80,14 @@ def bookingSubmit(request):
 
 def contact(request):
     if request.method=="GET":
-        return render(request,"contact/contact.html",{})
+        return render(request,"contact.html",{})
     else:
         username=request.POST['name']
         email=request.POST['email']
         message=request.POST['message']
         data=Contact(name=username,email=email,message=message)
         data.save()
-        return render(request,"contact/contact.html",{'message':'Thank you for contacting us.'})
+        return render(request,"contact.html",{'message':'Thank you for contacting us.'})
 
 def userPanel(request):
     user = request.user
