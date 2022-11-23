@@ -18,11 +18,12 @@ class Technician(models.Model):
     password = models.CharField(max_length=100)
     email = models.CharField(max_length=50)
     position = models.CharField(max_length=50) # Whether or not the staff member is trainee,senior,owner etc.
-    # Customers can opt ot of having a profile picture but staff members cannot
+    # Customers can opt out of having a profile picture but staff members cannot
     profile_pic = models.ImageField(upload_to="media", height_field=None, width_field=None, max_length=None,blank=False)
     phone_no = models.CharField(max_length=50)
     # Allows approval of staff accounts not everyone can create a technician account
     approved = models.BooleanField(default=False)
+    is_staff = True
     
     def __str__(self):
         return "Technician: "+self.username
