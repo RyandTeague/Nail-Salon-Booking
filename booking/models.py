@@ -1,5 +1,4 @@
 from django.db import models
-from authentication.models import Customer, Technician
 from datetime import date, datetime
 from django.contrib.auth.models import User
 
