@@ -5,7 +5,7 @@ from django_summernote.admin import SummernoteModelAdmin
 # Register your models here.
 
 @admin.register(Appointment)
-class AppointmentAdmin(admin.ModelAdmin(model, admin_site)):
+class AppointmentAdmin(admin.ModelAdmin):
 
     list_display = ('user', 'service', 'day', 'time')
     search_fields = ['user', 'service', 'day']

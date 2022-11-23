@@ -19,7 +19,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('booking.urls')),
+    path('',include('book.urls')),
     path('user/',include('authentication.urls')),
     path('user/',include('django.contrib.auth.urls')),
 ]
