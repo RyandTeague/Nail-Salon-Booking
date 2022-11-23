@@ -15,14 +15,14 @@ def login_user(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            return redirect('store')
+            return redirect('index')
         else:
             # Return an 'invalid login' error message.
             ...
             messages.success(request, "There Was An Error!")
             return redirect('login')
     else:
-        return render(request, '.templates/login.html', {})
+        return render(request, '.templates/registration/login.html', {})
 
 def logout_user(request):
     logout(request)

@@ -10,17 +10,23 @@
 <h1 class="text-center  mt-3">Online Booking</h1>
 
 <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5 ">
-    <form method="post" action="{% url 'booking' %}" class="me-2 ms-2" required>
+    <form method="POST" action="{% url 'booking' %}" class="me-2 ms-2" required>
         {% csrf_token %}
 
         <!--input service-->
+        Gel Polish"),
+    ("Biab First Application", "Biab First Application"),
+    ("Biab Infill", "Biab Infill"),
+    ("Apres Gel Extension", "Apres Gel Extension"),
+    ("Removal & Mani"
         <div>
             <h3 class="">Select Service:</h3>
             <select class="form-select fs-3" name="service">
-                <option value="Doctor care">Doctor care</option>
-                <option value="Nursing care">Nursing care</option>
-                <option value="Medical social services">Medical social services</option>
-                <option value="Homemaker or basic assistance care">Homemaker or basic assistance care</option>
+                <option value="Gel Polish">Gel Polish</option>
+                <option value="Biab First Application">Biab First Application</option>
+                <option value="Biab Infill">Biab Infill</option>
+                <option value="Apres Gel Extension">Apres Gel Extension</option>
+                <option value="Removal & Mani">Removal & Mani</option>
             </select>
         </div>
             <!--input day-->
