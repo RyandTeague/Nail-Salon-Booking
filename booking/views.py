@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import *
+from .models import Appointment, Contact
 from authentication.models import Customer
 from django.contrib import messages
 from django.http import HttpResponse
