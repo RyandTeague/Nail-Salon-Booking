@@ -143,7 +143,6 @@ def userUpdateSubmit(request, id):
     day = request.session.get('day')
     service = request.session.get('service')
     
-    #Only show the time of the day that has not been selected before and the time he is editing:
     hour = checkEditTime(times, day, id)
     appointment = Appointment.objects.get(pk=id)
     userSelectedTime = appointment.time
