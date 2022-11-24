@@ -29,6 +29,8 @@ TIME_CHOICES = (
     ("16:30", "16:30"),
 )
 
+# An appointment object which holds who made the appointment, what service they selected, the time and date 
+# of their service and the time the appointment was created
 class Appointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     service = models.CharField(max_length=50, choices=SERVICE_CHOICES, default="Gel Polish")
@@ -39,6 +41,8 @@ class Appointment(models.Model):
     def __str__(self):
         return f"{self.user.username} | day: {self.day} | time: {self.time}"
 
+#Contact form object which holds the name, email and message of someone wanting to contact
+# the salon
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
