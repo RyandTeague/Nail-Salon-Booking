@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['nail-salon-booking.herokuapp.com', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'authentication',
     'book',
+    'django.contrib.admin',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -61,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'nailsalon2022.urls'
+LOGIN_REDIRECT_URL = ('/user-panel')
 
 TEMPLATES = [
     {

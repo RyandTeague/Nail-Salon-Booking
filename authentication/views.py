@@ -15,10 +15,9 @@ def login_user(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page.
-            return redirect('index')
+            return redirect('userPanel')
         else:
             # Return an 'invalid login' error message.
-            ...
             messages.success(request, "There Was An Error!")
             return redirect('login')
     else:
