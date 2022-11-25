@@ -1,9 +1,11 @@
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.test import Client
 from django.test import TestCase
 from django.apps import apps
 from authentication import forms
 from .forms import RegisterUserForm
-from .views import register_user
+from .views import register_user, login_user, logout_user
 
 #testing testing tests correctly
 class TestDjango(TestCase):
@@ -116,3 +118,22 @@ class TestRegisterUserForm(TestCase):
                                              'password1': 'AGoodPassword',
                                              'password2': 'AGoodPassword', })
         self.assertTrue(form.is_valid())
+
+# Testing Views
+
+class LogInTest(TestCase):
+    
+  def test_get_home(self):
+    response = self.client.get('/')
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'index.html', 'layout.html')
+
+  def test_get_login(self):
+    response = self.client.get('/user/login_user')
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'registration/login.html', 'layout.html')
+
+  def test_get_registration(self):
+    response = self.client.get('/user/register_user')
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'register_user.html', 'layout.html')
