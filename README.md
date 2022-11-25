@@ -1,108 +1,173 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Adventure Game 
 
-Welcome RyandTeague,
+![Mock up of website on several differently sized devices](images/mockup.PNG)
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+Adventure Game is a Python terminal game, which runs in the Code Institute mock terminal on Heroku.
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+Users can try to beat the game using commands built into the game. If the player tries to perform
+an action that the game doesn't have coded in then the game will ask the player what they were trying to do.
+The program will then log this with the input, date, and time to a google sheet that the developer can review 
+and potentially implement new features using player feedback.
 
-## Gitpod Reminders
+The live link can be found here - https://adventuregamefeedback.herokuapp.com/
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+## How to play
 
-`python3 -m http.server`
+The aim of the game is to escape the dungeon.
 
-A blue button should appear to click: _Make Public_,
+Currently the player can move through adjecent rooms in the dungeon by giving commands with the cardinal directions.
 
-Another blue button should appear to click: _Open Browser_.
+When the player encounters an enemy they can attack or flee to a random adjecent tile.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+They are also able to find treasure and a different weapon in the dungeon if they explore.
 
-A blue button should appear to click: _Make Public_,
+If they find the cave exit they win, if they lose all their HP then they lose.
 
-Another blue button should appear to click: _Open Browser_.
+## Features
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+### Existing Features
 
-To log into the Heroku toolbelt CLI:
+- Intro screen
+    - When the player starts the game they are given an intro to what they have to do and are shown their available actions.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+![Start screen of game](images/startscreen.PNG)
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+- Combat
+    - In some rooms there are enemies that will take the player's HP and the player will have to either attack and kill the enemy or flee
+        - Currently the only implemented enemy is the giant spider.
 
-------
+![Screenshot of player being attacked by a spider](images/enemy.PNG)
 
-## Release History
+- Finding Loot
+    - the player is able to find different kind of items in the dungeon and add them to their inventory
+        -currently implemented is the ability to find a dagger which does more damage than the default rock
+    - The player is also able to find gold which updates their total gold amount
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+![Screen where player finds dagger](images/finddagger.PNG)
+![Inventory screen with dagger and 15 gold](images/Inventory.PNG)
+![Screen where player finds gold](images/foundgold.PNG)
+![Inventory screen with 20 gold](images/inventorygold.PNG)
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+- Winning and losing the game
+    - The player is able to win the game by finding the room that is the exit to the cave
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+![Screen that says the player has won the game](images/winstate.PNG)
+![Screen that says the player has died and lost the game](images/gameover.PNG)
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+- Gathering feedback data from Player
+    - When the player enters a command that isn't on the list of available actions they are told that their input is invalid. They are then asked what they were trying to do.
+    The input and the explanation are then dat and timestamped and sent to a google sheet where the developer can see this information. The intent behind this is that there are many different ways of giving a similar command (eg. 'Move North', 'Go North', 'North' etc...) so this way the developer can easily copy in words player are trying to use for available commands into action's keywords. The developer can also use inputs that were trying to do actions that arn't in the game as inspiration to add features that player's want.
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+![Screenshot that says the player has entered a wrong input and asks what they were trying to do](images/feedback.PNG)
+![Screenshot of google sheet where feedback input is sent](images/feedbacksheet.PNG)
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+### Future Features
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+- Feedback implementation
+    - The feedback inputted by player's is collected so that it can be used to either add keywords to commands so that
+    there are multiple ways to call actions, or player's might be trying to try actions that dont exist but what they would 
+    consider fun. The developer's can then choose to try and implement these ideas into the game, allowing the game to grow.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+- Player classes and stats
+    - In future versions of this game I would want to have the player choose a class at the beginning of the game which gave them certain stats and possibly
+    unique actions. In terms of code I would just have these be subclasses of the player object.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+- Damage rolls
+    - Based off popular tabletop games such as Dungeons and Dragons I would want damage from weapons and enemies to be randomly generated from a range so
+    that combat was less static. For player's weapons I would also the stats mentioned in the previous feature to add or subtract an amount of damage based
+    on the type of item and the player's stat. 
+## Data Model
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+The game is made up of several modules which contain model classes for the type of object they contain.
+The Player module contains the player class which stores the player's inventory,gold value, hp, position in the game world, and whether they've
+won the game or not. It also has methods to check if the player is still alive, as well as methods to help play the game such as changing it's x and y 
+coordinates to call different rooms, as well as printing the player's inventory, and quitting the game.
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+The world module contains a method which parses a world text file to create 'rooms', assign them a class from the "rooms" module and assign them x and y values
+to be called when the player's x and y values match. The layout is easily edited and planned by creating an excel sheet and putting the rooms into cells then 
+copying over the text to the map.txt.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+The rooms module contains a base class of room which has blank x y cordinates to be overwritten. as well as blank intro text and mody player methods. There are 
+then two subclasses of room currently which are: Enemy Rooms, which runs functions from an enemy object contained in the enemies module, it also limits player's actions so they cant just leave; Loot rooms, which add an item to the player's inventory. 
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+The enemies module contains a base class for all enemies that contains hp values and blank damage values, it also contains a method to check if the enemy is still alive. There is currently only a giant spider enemy object that has been created with this base class.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+The actions module contains an action base class which assigns names and keywords to the methods contained in the player class so that inputs from the plaer can call these actions. The action objects contained in this module are the same as the methods in the player modules.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+The Items module contains a base class for all items which contains the values for the name of the item, the value of the item, and a description. There is currently only one sub-class for items which are weapons, and these include values for the damage the weapon does and a description of it's damage.
 
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+Finally the run.py module contains methods for editing the feedback spreadsheet when a player enters an incorrect action, as well as the play method which runs the game. This method loads in the world from the world module, creates the player, and then places the player within the world and runs through the room objects methods, checks to make sure the room didnt kill the player before displaying the actions, and then asks for input from the player. The player's input is then checked against available actions for that room
+if it matches either the keyword or name of an action from the action module it will perform the matching method from the player module. If it does not match then it asks the player what they were trying to do and logs the input, intent, date, and time to an external spreadsheet that the developer can see. this process of input, performing action method, and performing room method loops until the player's victory value = true or the player's hp value =< 0.
 
 ```
-pkill uptime.sh
-rm .vscode/uptime.sh
+def play():
+    """
+    Runs the game, loops until the game is lost, quit, or won
+    """
+    world.load_tiles()
+    player = Player()
+    # These lines load the starting room and display the text
+    room = world.tile_exists(player.location_x, player.location_y)
+    print(room.intro_text())
+    while player.is_alive() and not player.victory:
+        room = world.tile_exists(player.location_x, player.location_y)
+        room.modify_player(player)
+        # Check again since the room could have changed the player's state
+        if player.is_alive() and not player.victory:
+            print("Choose an action:\n")
+            available_actions = room.available_actions()
+            for action in available_actions:
+                print(action)
+            action_input = input('Action: ')
+            for action in available_actions:
+                if action_input in action.hotkey:
+                    player.do_action(action, **action.kwargs)
+                    print("--------------------------------------------------")
+                    break
+                elif action_input.lower() == action.name.lower():
+                    player.do_action(action, **action.kwargs)
+                    print("--------------------------------------------------")
+                    break
+                elif action.hotkey == "q" and action_input != action.hotkey:
+                    """
+                    If the player inputs an invalid command then this code
+                    will ask them what they were trying to and log it into
+                    a spreadsheet that the developer can see. 
+                    """
+                    feedback(action_input)
+                    # worksheet_to_update.append_row(data)
+                    print("\n\t\t Thank you! Please try a different command!")
+                
+        elif not player.is_alive() and not player.victory:
+            print("\n\t\tYOU HAVE DIED\n \n\t\t\t## GAME OVER ##\n")
 ```
 
-**Anything more?**
+## Testing
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+### Validator Testing
 
----
+- Python
+    - Only errors returned from PEP8onlne.com were "whitespace before "("" and I can't identify what whitespace it's referring to.
 
-Happy coding!
+### Compatibility Testing
+
+Site was tested across multiple virtual devices through chrome developor tools.
+
+Site was tested to work on Google chrome, firefox, microsoft edge and internet explorer.
+
+## Deployment
+
+- The site was deployed using Code Institute's mock terminal for Heorku. The steps to deploy are as follows
+    - Create a new Heroku App
+    - Set the buildbacks to Python and NodeJS in that order
+    - Link the heroku app to the repository
+    - Click on Deploy
+
+## Credits
+
+- To complete this project I used Code Institute student template: [gitpod full template](https://github.com/Code-Institute-Org/python-essentials-template)
+
+### Code
+
+- The basis of this game's code was adapted from this guide book: https://link.springer.com/book/10.1007/978-1-4842-3231-6
+

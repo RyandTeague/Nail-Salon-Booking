@@ -11,6 +11,9 @@ class TestDjango(TestCase):
     def test_this_thing_works(self):
         self.assertEqual(1, 1)
 
+# This test will run through the invalid data sets and make sure they flag as invalid
+# before finally testing a valid dataset
+
 class TestRegisterUserForm(TestCase):
 
     def setUp(self) -> None:
@@ -18,7 +21,7 @@ class TestRegisterUserForm(TestCase):
         self.first_name = 'test'
         self.last_name = 'user'
         self.email = 'testuser@email.com'
-        self.password = '12345678'
+        self.password = 'AGoodPassword'
 
     def test_registration_form(self):
         invalid_data_dicts = [
@@ -29,59 +32,87 @@ class TestRegisterUserForm(TestCase):
               'email': 'tests@example.com',
               'password1': '12345678',
               'password2': '12345678' },
-            'error':
-            ('username', [u"Enter a valid value."])
             },
             # Non-valid email.
             {
             'data':
             { 'username': 'user',
               'email': 'notanemail',
-              'password1': '12345678',
-              'password2': '12345678' },
-            'error':
-            ('email', [u"must enter a valid email address."])
+              'first_name': 'user',
+              'last_name': 'test',
+              'password1': 'AGoodPassword',
+              'password2': 'AGoodPassword', },
             },
-            # Already-existing username.
+            # Empty username.
             {
             'data':
-            { 'username': 'testuser',
+            { 'username': '',
               'email': 'tests@example.com',
-              'password1': '12345678',
-              'password2': '12345678' },
-            'error':
-            ('username', [u"This username is already taken. Please choose another."])
+              'first_name': 'user',
+              'last_name': 'test',
+              'password1': 'AGoodPassword',
+              'password2': 'AGoodPassword',},
+            },
+            # Empty first name.
+            {
+            'data':
+            { 'username': 'user',
+              'email': 'tests@example.com',
+              'first_name': '',
+              'last_name': 'test',
+              'password1': 'AGoodPassword',
+              'password2': 'AGoodPassword',},
+            },
+            # Empty last name.
+            {
+            'data':
+            { 'username': 'user',
+              'email': 'tests@example.com',
+              'first_name': 'user',
+              'last_name': '',
+              'password1': 'AGoodPassword',
+              'password2': 'AGoodPassword',},
+            },
+            # Bad Password.
+            {
+            'data':
+            { 'username': 'user',
+              'email': 'tests@example.com',
+              'first_name': 'user',
+              'last_name': 'test',
+              'password1': 'Password',
+              'password2': 'Password',},
+            },
+            # Empty email.
+            {
+            'data':
+            { 'username': 'user',
+              'email': '',
+              'first_name': 'user',
+              'last_name': 'test',
+              'password1': 'AGoodPassword',
+              'password2': 'AGoodPassword',},
             },
             # passwords not-matching.
             {
             'data':
             { 'username': 'user',
               'email': 'tests@example.com',
-              'password1': '12345678',
-              'password2': '87654321' },
-            'error':
-            ('username', [u"This username is already taken. Please choose another."])
+              'first_name': 'user',
+              'last_name': 'test',
+              'password1': 'AGoodPassword',
+              'password2': 'ABadPassword', },
             },
         ]
 
         for invalid_dict in invalid_data_dicts:
             form = forms.RegisterUserForm(data=invalid_dict['data'])
             self.failIf(form.is_valid())
-            self.assertEqual(form.errors[invalid_dict['error'][0]], invalid_dict['error'][1])
 
         form = forms.RegisterUserForm(data={ 'username': 'user',
                                              'email': 'tests@example.com',
-                                             'password1': '12345678',
-                                             'password2': '12345678' })
-        self.failUnless(form.is_valid())
-
-
-
-    def test_register_page_url(self):
-        response = self.client.get("/user/register_user")
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, template_name='register_user.html')
-
-        #testing that a user is created when you register
-        user = get_user_model().objects.all()
-        self.assertEqual(users.count(), 1)
+                                             'first_name': 'user',
+                                             'last_name': 'test',
+                                             'password1': 'AGoodPassword',
+                                             'password2': 'AGoodPassword', })
+        self.assertTrue(form.is_valid())
