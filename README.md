@@ -149,6 +149,15 @@ class UserAdmin(OriginalUserAdmin):
     - userPanel organises appointments made by that user by time and date.
     - staffPanel oranganises all appointments made for the next 21 days by time and date.
 
+## Development
+
+- This project was developed with an agile development methodology. 
+    - An epic was created to outline the goal of the project
+        - "I want to create a website that customers can use to book appointments at a salon. I want them to be able to select a service and available times for an appointment, the customer will need to create an account so that they can view and edit their appointments. I want the technicians to have an account where they are able to view their appointments. When either a customer or technician deletes an appointment I want the time slot to become available again and an email sent to both parties confirming the cancellation. I want an email sent to the client 5 days prior to their appointment or straight away if the appointment made is within 5 days asking them to confirm the appointment. Technicians should be able to send a reminder manually as well if the client doesn’t confirm.
+        - During development some off these features didn't end up being developed due to time constraint and developer knowledge but the minimum viable product was developed.
+
+    - User stories were created and tracked using GitHub's projects functionality:
+    ![Screenshot of github projects page with user stories](media/images/userstories.jpg)
 
 ## Testing
 

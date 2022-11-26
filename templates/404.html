@@ -1,0 +1,23 @@
+<title>404</title>
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block body %}
+
+  <!--Hero 1 Start-->
+
+    <div class="bg bg-secondary text-dark pt-5 pb-5">
+        <div class="text-center  pt-5 pb-5">
+            <h1 class="display-1 cGreen me-2 ms-2">
+                <span style="font-family: copperplate, fantasy;">
+                    Error: 404. This page does not exist. Please click below to return to homepage.
+                </span>
+            </h1>
+            <a class="btn btn-outline-light btn-block shadow  mt-5" href="{% url 'index' %}">Home</a>
+        </div>
+    </div>
+
+  <!--Hero 1 End-->
+
+{% endblock %} 
