@@ -14,14 +14,13 @@ The live link can be found here - https://nail-salon-booking.herokuapp.com
 
 - Landing Page
     - On the landing page, new users will see this nav bar. allowing them to access the contact page, booking or sign in/sign up.
-
-![Nav bar for signed out users](media/images/navbarnotsignedin.PNG)
+    ![Nav bar for signed out users](media/images/navbarnotsignedin.PNG)
 
     - When a regular customer signs in they will see this version of the nav bar, the user option will give them a drop down menu that allows them to access the user panel or logout.
-![Nav bar for signed in customers](media/images/navbarnotstaff.PNG)
+    ![Nav bar for signed in customers](media/images/navbarnotstaff.PNG)
 
-    -The full landing page and nav bar that staff members will see is shown below. The booking button will take users to the online booking feature.
-![Landing Page for signed in staff](media/images/index.PNG)
+    - The full landing page and nav bar that staff members will see is shown below. The booking button will take users to the online booking feature.
+    ![Landing Page for signed in staff](media/images/index.PNG)
 
     - The code that changes this view is in the layout.html template:
 ```                     
@@ -52,34 +51,58 @@ The live link can be found here - https://nail-salon-booking.herokuapp.com
                         {% endif %}
 
 ```
-- Combat
-    - In some rooms there are enemies that will take the player's HP and the player will have to either attack and kill the enemy or flee
-        - Currently the only implemented enemy is the giant spider.
 
-![Screenshot of player being attacked by a spider](images/enemy.PNG)
+- Register user
+    - Users can create a user profile and then use the username and password they choose here to log-in.
+    ![Screenshot of sign up page](media/images/signup.PNG)
 
-- Finding Loot
-    - the player is able to find different kind of items in the dungeon and add them to their inventory
-        -currently implemented is the ability to find a dagger which does more damage than the default rock
-    - The player is also able to find gold which updates their total gold amount
+    - User accounts have to be verified on the administration page to become staff accounts. This is fine for a small business as one superuser controlling who is staff is fine but for a larger salon there would need to be different staff account with different permissions. Code for admin action:
 
-![Screen where player finds dagger](images/finddagger.PNG)
-![Inventory screen with dagger and 15 gold](images/Inventory.PNG)
-![Screen where player finds gold](images/foundgold.PNG)
-![Inventory screen with 20 gold](images/inventorygold.PNG)
+```
+class UserAdmin(OriginalUserAdmin):
+    list_display = ('first_name', 'last_name', 'email', 'is_staff')
+    list_filter = ('is_staff', 'first_name')
+    search_fields = ('first_name', 'last_name', 'username', 'email')
+    actions = ['hired', 'fired']
 
-- Winning and losing the game
-    - The player is able to win the game by finding the room that is the exit to the cave
+    def hired(self, request, queryset):
+        queryset.update(is_staff=True)
 
-![Screen that says the player has won the game](images/winstate.PNG)
-![Screen that says the player has died and lost the game](images/gameover.PNG)
+    def fired(self, request, queryset):
+        queryset.update(is_staff=False)
+```
 
-- Gathering feedback data from Player
-    - When the player enters a command that isn't on the list of available actions they are told that their input is invalid. They are then asked what they were trying to do.
-    The input and the explanation are then dat and timestamped and sent to a google sheet where the developer can see this information. The intent behind this is that there are many different ways of giving a similar command (eg. 'Move North', 'Go North', 'North' etc...) so this way the developer can easily copy in words player are trying to use for available commands into action's keywords. The developer can also use inputs that were trying to do actions that arn't in the game as inspiration to add features that player's want.
+- Sign In User
+    - Users can enter in their details to sign in here and access their user panel which shows their appointments.
+    ![Screenshot of sign in page](media/images/signin.PNG)
 
-![Screenshot that says the player has entered a wrong input and asks what they were trying to do](images/feedback.PNG)
-![Screenshot of google sheet where feedback input is sent](images/feedbacksheet.PNG)
+- Booking Pages
+    - A signed in user can access these pages and choose a service and date for an appointment.
+    ![Screenshot of booking date and service page](media/images/bookdate.PNG)
+
+    - After selecting a time and service the user can choose a time for their appointment. They cannot book a time that has already been selected. In this example there is already a booking for 11:00.
+    ![Screenshot of booking time page](media/images/booktime.PNG)
+    ![Screenshot of booking selected time page](media/images/timeslottaken.PNG)
+
+    - Users are redirected to the landing page after booking and recieve a confirmation message of their booking.
+    ![Screenshot of booking confirmation message page](media/images/bookmessage.PNG)
+
+- User Panel
+    - On the user panel users can see their appointments and click on buttons to edit them or delete them.
+    ![Screenshot of User panel with edit and delete buttons](media/images/deleteappointments.PNG)
+    
+- User Update Pages
+    - The user can edit the details of their already booked appointments here. Very similar to the booking pages
+    ![Screenshot of editing booking date and service page](media/images/editdate.PNG)
+    ![Screenshot of editing booking time page](media/images/edittime.PNG)
+
+- Staff Panel
+    - Users who have been authorised as staff can view this page and see appointments made by other users, organised by soonest appointment first.
+    ![Screenshot of Staff Panel page](media/images/staffpanel.PNG)
+
+- Contact Form
+    - Users can submit a message along with their name and contact details in order to ask a question to the salon, this is saved on the backend.
+    ![Screenshot of contact us page](media/images/contactus.PNG)
 
 ### Future Features
 
@@ -110,7 +133,21 @@ The live link can be found here - https://nail-salon-booking.herokuapp.com
 
 - The booking app contains two models:
     - The contact model has three fields which users fill out manually: name, email, and message.
-    - The Appointment model has five fields. 
+    - The Appointment model has five fields. user is assigned from the user who creates an appointment, if the user gets deleted then associated appointments are also deleted. service is selected by the user in the booking.html, as is the date. time is selected on the bookingSubmit.html. time_ordered creates a timestamp for when the appointment was made and is for administrative purposes only.
+- There are fourteen views in the booking app:
+    - The index function generates the front page.
+    - The Contact view takes the user's input data from contact.html and saves it in the backend.
+    - checkTime creates a list of times that have been selected for appointments on a given day and if there are no appointments for a timeslot it is selectable.
+    - checkEditTime does almost the same function but also shows the time previously chosen for that appointment in case the user wants to keep that time.
+    - dayToWeekday takes a date and converts in into a weekday eg. monday,...
+    - validweekday takes a number of days and loops through that number starting from the current date, it then adds them to a list if they match the criteria, in this case thats being a Monday, Wednesday, or Friday.
+    - isWeekdayValid calls that list made before and creates another only showing days that have availability.
+    - the booking function calls the previous functions to create a list of day choices for the user and displays a list of services. It validates that the user has selected a service and then if successful returns this data for use in the next model.
+    - The booking submit function calls the checktime function to get a list of valid timeslots available. It then validates that the model has a service, is booked sometime between yesterday and 21 days from date of booking, is a valid weekday, that their are available times on that day, that the time selected is available. If these all pass then the appointment model is created with these fields selected in the booking process. 
+    - userUpdate and userUpdateSubmit are functionally very similair to the above two but call a specific appointment's data up to be edited.
+    - deleteAppointment calls the appointment id and deletes that appointment.
+    - userPanel organises appointments made by that user by time and date.
+    - staffPanel oranganises all appointments made for the next 21 days by time and date.
 
 
 ## Testing
@@ -291,10 +328,7 @@ class TestRegisterUserForm(TestCase):
                                             'password1': 'AGoodPassword',
                                             'password2': 'AGoodPassword', })
         self.assertTrue(form.is_valid())
-
-# Testing Views
-
-
+    
 class LogInTest(TestCase):
     
   def test_get_home(self):
