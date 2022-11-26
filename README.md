@@ -105,7 +105,8 @@ The live link can be found here - https://nail-salon-booking.herokuapp.com
 ### Validator Testing
 
 - Html
-    -
+    - Using w3 validator templates were passing ignoring Django html template syntax
+    - https://validator.w3.org/nu/
 
 ### Compatibility Testing
 

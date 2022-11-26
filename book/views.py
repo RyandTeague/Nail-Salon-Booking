@@ -1,11 +1,13 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import Appointment, Contact
 from django.contrib import messages
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 
+
 def index(request):
-    return render(request,'index.html',{})
+    return render(request, 'index.html', {})
+
 
 def booking(request):
     weekdays = validWeekday(22)
@@ -25,9 +27,10 @@ def booking(request):
         return redirect('bookingSubmit')
 
     return render(request, 'booking.html', {
-        'weekdays':weekdays,
-        'validateWeekdays':validateWeekdays,
+        'weekdays': weekdays,
+        'validateWeekdays': validateWeekdays,
     })
+
 
 def bookingSubmit(request):
     user = request.user
@@ -55,10 +58,10 @@ def bookingSubmit(request):
                     if Appointment.objects.filter(day=day).count() < 11:
                         if Appointment.objects.filter(day=day, time=time).count() < 1:
                             AppointmentForm = Appointment.objects.get_or_create(
-                                user = user,
-                                service = service,
-                                day = day,
-                                time = time,
+                                user=user,
+                                service=service,
+                                day=day,
+                                time=time,
                             )
                             messages.success(request, "Appointment Saved!")
                             return redirect('index')
@@ -69,32 +72,35 @@ def bookingSubmit(request):
                 else:
                     messages.success(request, "The Selected Date Is Incorrect")
             else:
-                    messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
         else:
             messages.success(request, "Please Select A Service!")
 
     return render(request, 'bookingSubmit.html', {
-        'times':hour,
+        'times': hour,
     })
 
+
 def contact(request):
-    if request.method=="GET":
-        return render(request,"contact.html",{})
+    if request.method == "GET":
+        return render(request, "contact.html", {})
     else:
-        username=request.POST['name']
-        email=request.POST['email']
-        message=request.POST['message']
-        data=Contact(name=username,email=email,message=message)
+        username = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        data = Contact(name=username, email=email, message=message)
         data.save()
-        return render(request,"contact.html",{'message':'Thank you for contacting us.'})
+        return render(request, "contact.html", {'message': 'Thank you for contacting us.'})
+
 
 def userPanel(request):
     user = request.user
     appointments = Appointment.objects.filter(user=user).order_by('day', 'time')
     return render(request, 'userPanel.html', {
-        'user':user,
-        'appointments':appointments,
+        'user': user,
+        'appointments': appointments,
     })
+
 
 def userUpdate(request, id):
     appointment = Appointment.objects.get(pk=id)
@@ -103,7 +109,6 @@ def userUpdate(request, id):
     today = datetime.today()
     minDate = today.strftime('%Y-%m-%d')
 
-    
     delta24 = (userdatepicked).strftime('%Y-%m-%d') >= (today + timedelta(days=1)).strftime('%Y-%m-%d')
     
     weekdays = validWeekday(22)
@@ -111,7 +116,6 @@ def userUpdate(request, id):
     #Only show the days that are not full:
     validateWeekdays = isWeekdayValid(weekdays)
     
-
     if request.method == 'POST':
         service = request.POST.get('service')
         day = request.POST.get('day')
@@ -121,19 +125,20 @@ def userUpdate(request, id):
 
         return redirect('userUpdateSubmit', id=id)
 
-
     return render(request, 'userUpdate.html', {
-            'weekdays':weekdays,
-            'validateWeekdays':validateWeekdays,
+            'weekdays': weekdays,
+            'validateWeekdays': validateWeekdays,
             'delta24': delta24,
             'id': id,
         })
 
+
 def deleteAppointment(request, id):
-	appointment = Appointment.objects.get(pk=id)
-	appointment.delete()
-	messages.success(request, ("Appointment Deleted!!"))
-	return redirect('userPanel')		
+    appointment = Appointment.objects.get(pk=id)
+    appointment.delete()
+    messages.success(request, ("Appointment Deleted!!"))
+    return redirect('userPanel')		
+
 
 def userUpdateSubmit(request, id):
     user = request.user
@@ -162,10 +167,10 @@ def userUpdateSubmit(request, id):
                     if Appointment.objects.filter(day=day).count() < 11:
                         if Appointment.objects.filter(day=day, time=time).count() < 1 or userSelectedTime == time:
                             AppointmentForm = Appointment.objects.filter(pk=id).update(
-                                user = user,
-                                service = service,
-                                day = day,
-                                time = time,
+                                user=user,
+                                service=service,
+                                day=day,
+                                time=time,
                             ) 
                             messages.success(request, "Appointment Edited!")
                             return redirect('index')
@@ -176,16 +181,16 @@ def userUpdateSubmit(request, id):
                 else:
                     messages.success(request, "The Selected Date Is Incorrect")
             else:
-                    messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
+                messages.success(request, "The Selected Date Isn't In The Correct Time Period!")
         else:
             messages.success(request, "Please Select A Service!")
         return redirect('userPanel')
-
 
     return render(request, 'userUpdateSubmit.html', {
         'times':hour,
         'id': id,
     })
+
 
 def staffPanel(request):
     today = datetime.today()
@@ -197,19 +202,21 @@ def staffPanel(request):
     items = Appointment.objects.filter(day__range=[minDate, maxDate]).order_by('day', 'time')
 
     return render(request, 'staffPanel.html', {
-        'items':items,
+        'items': items,
     })
+
 
 def dayToWeekday(x):
     z = datetime.strptime(x, "%Y-%m-%d")
     y = z.strftime('%A')
     return y
 
+
 def validWeekday(days):
     #Loop days you want in the next 21 days:
     today = datetime.now()
     weekdays = []
-    for i in range (0, days):
+    for i in range(0, days):
         x = today + timedelta(days=i)
         y = x.strftime('%A')
         # Append only weekdays 
@@ -225,6 +232,7 @@ def isWeekdayValid(x):
             validateWeekdays.append(j)
     return validateWeekdays
 
+
 def checkTime(times, day):
     #Only show the time of the day that has not been selected before:
     x = []
@@ -232,6 +240,7 @@ def checkTime(times, day):
         if Appointment.objects.filter(day=day, time=k).count() < 1:
             x.append(k)
     return x
+
 
 def checkEditTime(times, day, id):
     #Only show the time of the day that has not been selected before:

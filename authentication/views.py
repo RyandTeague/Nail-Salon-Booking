@@ -6,7 +6,6 @@ from .forms import RegisterUserForm
 from django.core.mail import send_mail
 
 
-
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -23,10 +22,12 @@ def login_user(request):
     else:
         return render(request, 'registration/login.html', {})
 
+
 def logout_user(request):
     logout(request)
     messages.success(request, "Sign Out Successful")
     return redirect('index')
+
 
 def register_user(request):
     if request.method == "POST":
@@ -35,13 +36,13 @@ def register_user(request):
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            user = authenticate(username=username, password = password)
+            user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, "Sign Up Completed!")
             return redirect('index')
     else:
         form = RegisterUserForm()
     return render(request, 'register_user.html', {
-        'form':form,
+        'form': form,
     })
     
