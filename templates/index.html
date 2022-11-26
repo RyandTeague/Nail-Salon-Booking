@@ -1,9 +1,7 @@
+<title>Home</title>
 {% extends 'layout.html' %}
 {% load static %}
 
-{% block head %}
-<title>Home</title>
-{% endblock %}
 
 {% block body %}
 
@@ -16,7 +14,7 @@
               </span><span style="font-family: copperplate, fantasy;">salon</span>
             </h1>
             <p class="fs-4 mt-3">Click below to see available dates and treatments!</p>
-            <a type="button" class="btn btn-outline-light btn-block shadow  mt-5" href="{% url 'booking' %}">Online Booking</a>
+            <a class="btn btn-outline-light btn-block shadow  mt-5" href="{% url 'booking' %}">Online Booking</a>
         </div>
     </div>
 
