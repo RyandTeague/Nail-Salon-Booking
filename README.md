@@ -1,4 +1,4 @@
-# Adventure Game 
+# Nail Salon
 
 ![Mock up of website on several differently sized devices](images/mockup.PNG)
 

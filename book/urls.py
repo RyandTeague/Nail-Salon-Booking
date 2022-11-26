@@ -2,8 +2,8 @@ from django.urls import path
 from . import views
 
 
-urlpatterns=[
-    path('contact-us',views.contact,name='contact-us'),
+urlpatterns = [
+    path('contact-us', views.contact, name='contact-us'),
     path('', views.index, name='index'),
     path('booking', views.booking, name='booking'),
     path('booking-submit', views.bookingSubmit, name='bookingSubmit'),
@@ -11,4 +11,5 @@ urlpatterns=[
     path('user-update/<int:id>', views.userUpdate, name='userUpdate'),
     path('user-update-submit/<int:id>', views.userUpdateSubmit, name='userUpdateSubmit'),
     path('staff-panel', views.staffPanel, name='staffPanel'),
+    path('delete-appointment/<int:id>', views.deleteAppointment, name='deleteAppointment'),
 ]

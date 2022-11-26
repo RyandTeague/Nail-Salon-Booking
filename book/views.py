@@ -129,6 +129,12 @@ def userUpdate(request, id):
             'id': id,
         })
 
+def deleteAppointment(request, id):
+	appointment = Appointment.objects.get(pk=id)
+	appointment.delete()
+	messages.success(request, ("Appointment Deleted!!"))
+	return redirect('userPanel')		
+
 def userUpdateSubmit(request, id):
     user = request.user
     times = [
