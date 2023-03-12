@@ -29,12 +29,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['nail-salon-booking.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ["nail-salon-booking.herokuapp.com", "localhost"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -44,7 +45,6 @@ INSTALLED_APPS = [
     'django_summernote',
     'authentication',
     'book',
-    'django.contrib.admin',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
